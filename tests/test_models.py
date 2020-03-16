@@ -13,7 +13,7 @@ DATABASE_URI = os.getenv(
 )
 
 ######################################################################
-#  INVENTORY   M O D E L   T E S T   C A S E S
+##  INVENTORY   M O D E L   T E S T   C A S E S
 ######################################################################
 class TestInventory(unittest.TestCase):
     """ Test Cases for <your resource name> Model """

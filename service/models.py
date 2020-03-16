@@ -9,6 +9,7 @@ from flask_sqlalchemy import SQLAlchemy
 logger = logging.getLogger("flask.app")
 
 # Create the SQLAlchemy object to be initialized later in init_db()
+#
 db = SQLAlchemy()
 
 class DataValidationError(Exception):
@@ -24,6 +25,7 @@ class Inventory(db.Model):
     app = None
 
     # Table Schema
+	#
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(63))
     sku = db.Column(db.String(63)) 
