@@ -8,7 +8,7 @@ import os
 from service.models import YourResourceModel, DataValidationError, db
 
 ######################################################################
-#  <your resource name>   M O D E L   T E S T   C A S E S
+#  Inventory   M O D E L   T E S T   C A S E S
 ######################################################################
 class TestYourResourceModel(unittest.TestCase):
     """ Test Cases for <your resource name> Model """
