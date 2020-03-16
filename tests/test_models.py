@@ -5,27 +5,18 @@ Test cases for <your resource name> Model
 import logging
 import unittest
 import os
-from service import app
-from service.models import Inventory, DataValidationError, db
-
-DATABASE_URI = os.getenv(
-    "DATABASE_URI", "postgres://postgres:postgres@localhost:5432/postgres"
-)
+from service.models import YourResourceModel, DataValidationError, db
 
 ######################################################################
 ##  INVENTORY   M O D E L   T E S T   C A S E S
 ######################################################################
-class TestInventory(unittest.TestCase):
+class TestYourResourceModel(unittest.TestCase):
     """ Test Cases for <your resource name> Model """
 
     @classmethod
     def setUpClass(cls):
-        """ These run once per Test suite """
-        app.config['TESTING'] = True
-        app.config['DEBUG'] = False
-        app.config["SQLALCHEMY_DATABASE_URI"] = DATABASE_URI
-        app.logger.setLevel(logging.CRITICAL)
-        Inventory.init_db(app)
+        """ This runs once before the entire test suite """
+        pass
 
     @classmethod
     def tearDownClass(cls):
@@ -34,14 +25,11 @@ class TestInventory(unittest.TestCase):
 
     def setUp(self):
         """ This runs before each test """
-        db.drop_all()
-        db.create_all()
+        pass
 
     def tearDown(self):
         """ This runs after each test """
-        db.session.remove()
-        db.drop_all()
-        
+        pass
 
 ######################################################################
 #  P L A C E   T E S T   C A S E S   H E R E 
