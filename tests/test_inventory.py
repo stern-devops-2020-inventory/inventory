@@ -43,6 +43,16 @@ class TestInventoryModel (unittest.TestCase):
         """ This runs after each test """
         pass
 
+    def test_create_an_inventory_item(self):
+        """ Create an intentory item and assert that it exists"""
+        inv_item = Inventory(name = "Rolex Watch", sku= "R1232020", quantity = 10, restockLevel = 12)
+        self.assertTrue(inv_item != None)
+        self.assertEqual(inv_item.id, None)
+        self.assertEqual(inv_item.name, "Rolex Watch")
+        self.assertEqual(inv_item.sku, "R1232020")
+        self.assertEqual(inv_item.quantity, 10)
+        self.assertEqual(inv_item.restockLevel, 12)
+
 ######################################################################
 #  P L A C E   T E S T   C A S E S   H E R E 
 ######################################################################

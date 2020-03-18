@@ -26,6 +26,48 @@ def index():
     """ Root URL response """
     return "Reminder: return some useful information in json format about the service here", status.HTTP_200_OK
 
+
+######################################################################
+# LIST ALL INVENTORY
+######################################################################
+@app.route("/inventory", methods=["GET"])
+def list_inventory():
+    """ Returns entire Inventory """
+    app.logger.info("Request for entire inventory")
+    inventory = []
+    sku = request.args.get("sku")
+    name = request.args.get("name")
+    if sku:
+        inventory = Inventory.find_by_sku(sku)
+    elif name:
+        inventory = Inventory.find_by_name(name)
+    else:
+        inventory = Inventory.all()
+
+    results = [inv.serialize() for inv in inventory]
+    return make_response(jsonify(results), status.HTTP_200_OK)
+
+######################################################################
+# ADD NEW INVENTORY
+######################################################################
+    @app.route("/inventory", methods = ["POST"])
+    def create_inventory(self, count):
+    """
+    Creates a Pet
+    This endpoint will create inventory based the data in the body that is posted
+    """
+    app.logger.info ("Request to create inventory")
+    check_content_type("application/json")
+    inv_item = Inventory()
+    inv_item.deserialize(request.get_json())
+    inv_item.create()
+    message = inv_item.serialize()
+    location_url = url_for("list_inventory", sku=inv_item.id, _external=True)
+    return make_response(
+        jsonify(message), status.HTTP_201_CREATED, {"Location": location_url}
+    )
+
+
 ######################################################################
 # UPDATE AN EXISTING INVENTORY ITEM
 ######################################################################
