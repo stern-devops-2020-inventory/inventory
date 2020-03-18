@@ -50,10 +50,10 @@ def list_inventory():
 ######################################################################
 # ADD NEW INVENTORY
 ######################################################################
-    @app.route("/inventory", methods = ["POST"])
-    def create_inventory(self, count):
+@app.route("/inventory", methods = ["POST"])
+def create_inventory(self, count):
     """
-    Creates a Pet
+    Creates New Inventory
     This endpoint will create inventory based the data in the body that is posted
     """
     app.logger.info ("Request to create inventory")
