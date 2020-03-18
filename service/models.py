@@ -108,6 +108,12 @@ class Inventory(db.Model):
         return cls.query.get(by_id)
 
     @classmethod
+    def find_by_sku(cls, sku):
+        """ Finds Inventory by it's ID """
+        logger.info("Processing lookup for sku %s ...", sku)
+        return cls.query.filter(cls.sku == sku)
+
+    @classmethod
     def find_or_404(cls, by_id):
         """ Find Inventory by it's id """
         logger.info("Processing lookup or 404 for id %s ...", by_id)
