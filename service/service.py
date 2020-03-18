@@ -90,6 +90,36 @@ def update_inventory():
 
 
 ######################################################################
+# RETRIEVE AN INVENTORY ITEM BY ID
+######################################################################
+@app.route("/inventory/<int:inv_id>", methods=["GET"])
+def get_inventory_item(inv_id):
+    """
+    Retrieve a record for single Inventory row
+    This endpoint will return an Inventory row based on its id
+    """
+    app.logger.info("Request for pet with id: %", inv_id)
+    inv = Inventory.find(inv_id)
+    if not inv:
+        raise NotFound("Inventory Item with id '{}' was not found.".format(inv_id))
+    return make_response(jsonify(inv.serialize()), status.HTTP_200_OK)
+######################################################################
+# RETRIEVE AN INVENTORY ITEM BY SKU
+######################################################################
+@app.route("/inventory/<string:inv_sku>", methods=["GET"])
+def get_inventory_item(inv_sku):
+    """
+    Retrieve a record for single Inventory row
+    This endpoint will return an Inventory row based on its sku
+    """
+    app.logger.info("Request for pet with sku: %", inv_sku)
+    inv = Inventory.find_by_sku(inv_sku)
+    if not inv:
+        raise NotFound("Inventory Item with sku '{}' was not found.".format(inv_sku))
+    return make_response(jsonify(inv.serialize()), status.HTTP_200_OK)
+
+
+######################################################################
 #  U T I L I T Y   F U N C T I O N S
 ######################################################################
 
@@ -97,3 +127,6 @@ def init_db():
     """ Initialies the SQLAlchemy app """
     global app
     Inventory.init_db(app)
+
+
+
