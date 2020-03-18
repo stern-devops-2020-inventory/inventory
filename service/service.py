@@ -32,7 +32,7 @@ def index():
 ######################################################################
 @app.route("/inventory", methods=["GET"])
 def list_inventory():
-    """ Returns entire Inventory """
+    """ Returns entire list of Inventory items """
     app.logger.info("Request for entire inventory")
     inventory = []
     sku = request.args.get("sku")
