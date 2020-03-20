@@ -32,8 +32,8 @@ class InventoryFactory(factory.Factory):
     name = factory.Faker("first_name")
     sku = factory.Faker("last_name") 
     quantity = random.randint(0,100)
-    #if random.random < .5: #Only set some, adjust % as needed.
-    restockLevel = random.randint(0,10) # OPTIONAL Level at which we will need to restock the item.
+    if random.random() < .5: #Only set some, adjust % as needed.
+        restockLevel = random.randint(0,10) # OPTIONAL Level at which we will need to restock the item.
 
 if __name__ == "__main__":
     for _ in range(10):

@@ -15,6 +15,8 @@ app.config.from_object('config')
 
 # Import the rutes After the Flask app is created
 from service import service, models
+from tests import test_service
+
 
 # Set up logging for production
 if __name__ != '__main__':
@@ -40,3 +42,4 @@ except Exception as error:
     sys.exit(4)
 
 app.logger.info("Service inititalized!")
+    

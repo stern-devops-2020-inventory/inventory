@@ -31,7 +31,7 @@ class Inventory(db.Model):
     restockLevel = db.Column(db.Integer) # OPTIONAL Level at which we will need to restock the item.
 
     def __repr__(self):
-        return "<<your resource name> %r id=[%s]>" % (self.name, self.id)
+        return "Product %r sku %r id=[%s]>" % (self.name, self.sku, self.id)
 
     def create(self):
         """
@@ -81,7 +81,7 @@ class Inventory(db.Model):
             raise DataValidationError("Invalid <your resource name>: missing " + error.args[0])
         except TypeError as error:
             raise DataValidationError(
-                "Invalid <your resource name>: body of request contained" "bad or no data"
+                "Invalid inventory: body of request contained" "bad or no data"
             )
         return self
 
@@ -102,22 +102,22 @@ class Inventory(db.Model):
         return cls.query.all()
 
     @classmethod
-    def find(cls, by_id):
+    def find(cls, inv_id):
         """ Finds Inventory by it's ID """
-        logger.info("Processing lookup for id %s ...", by_id)
-        return cls.query.get(by_id)
+        logger.info("Processing lookup for id %s ...", inv_id)
+        return cls.query.get(inv_id)
 
     @classmethod
     def find_by_sku(cls, sku):
-        """ Finds Inventory by it's ID """
+        """ Finds Inventory by it's sku """
         logger.info("Processing lookup for sku %s ...", sku)
         return cls.query.filter(cls.sku == sku)
 
     @classmethod
-    def find_or_404(cls, by_id):
+    def find_or_404(cls, inv_id):
         """ Find Inventory by it's id """
-        logger.info("Processing lookup or 404 for id %s ...", by_id)
-        return cls.query.get_or_404(by_id)
+        logger.info("Processing lookup or 404 for id %s ...", inv_id)
+        return cls.query.get_or_404(inv_id)
 
     @classmethod
     def find_by_name(cls, name):
