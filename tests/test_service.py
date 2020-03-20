@@ -125,6 +125,27 @@ class TestInventoryServer(TestCase):
             new_item["restockLevel"], test_inv_item.restockLevel, "Categories do not match"
         )
 
+    def test_update_inventory(self):
+        """ Update an existing inventory item"""
+        #Create item to update
+        test_inventory = InventoryFactory()
+        resp = self.app.post(
+            "/inventory", json=test_inventory.serialize(), content_type = "application/json"
+        )
+        self.assertEqual(resp.status_code, status.HTTP_201_CREATED)
+
+        # update the inventory by sku
+        new_item = resp.get_json()
+        new_item['restockLevel'] = 20
+        resp = self.app.put(
+            "/inventory/{}".format(new_item['id']),
+            json = new_item,
+            content_type = "application/json"
+        )
+        self.assertEqual(resp.status_code, status.HTTP_200_OK)
+        updated_inventory = resp.get_json()
+        self.assertEqual(updated_inventory["restockLevel"], 20)
+
     def test_delete_inventory_item(self):
         """ Delete an Inventory Item """
         test_item = self._create_inventory(1)[0]

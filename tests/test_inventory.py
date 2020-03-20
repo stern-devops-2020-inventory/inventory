@@ -70,6 +70,25 @@ class TestInventoryModel (unittest.TestCase):
         inventory = Inventory.all()
         self.assertEqual(len(inventory), 1)
 
+    def test_update_an_inventory_item(self):
+        """ Update an inv item """
+        inv_item = InventoryFactory()
+        logging.debug(inv_item)
+        inv_item.create()
+        logging.debug(inv_item)
+        self.assertEqual(inv_item.id, 1)
+        # Change the item snd save it
+        inv_item.restockLevel = 20
+        original_id = inv_item.id
+        inv_item.save()
+        self.assertEqual(inv_item.id, original_id)
+        self.assertEqual(inv_item.restockLevel, 20)
+        #Fetch back to make sure the id has not changed
+        #but the data did change
+        inventory = Inventory.all()
+        self.assertEqual(len(inventory), 1)
+        self.assertEqual(inventory[0].id, 1)
+        self.assertEqual(inventory[0].restockLevel, 20)
 
     def test_delete_an_inventory_item(self):
         """ Delete an item """
