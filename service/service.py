@@ -151,7 +151,20 @@ def get_inventory_item_by_sku(inv_sku):
         raise NotFound("Inventory Item with sku '{}' was not found.".format(inv_sku))
     return make_response(jsonify(inv.serialize()), status.HTTP_200_OK)
 
+######################################################################
+# RETRIEVE OUT OF STOCK INVENTORY ITEMS 
+# ######################################################################
+@app.route("/inventory/restock", methods=["GET"])
+def get_understocked_inventory():
+    """
+    Retrieve records that are out of stock
 
+    """
+    app.logger.info("Request for understocked inventory")
+    inv = Inventory.find_understocked()
+    if not inv:
+        raise NotFound("Understocked Inventory was not found.")
+    return make_response(jsonify(inv[0].serialize()), status.HTTP_200_OK)
 
 ######################################################################
 # ADD A NEW INVENTORY ITEM
