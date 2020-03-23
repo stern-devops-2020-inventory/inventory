@@ -96,20 +96,6 @@ def internal_server_error(error):
         status.HTTP_500_INTERNAL_SERVER_ERROR,
     )
 
-######################################################################
-# GET INDEX
-######################################################################
-@app.route("/")
-def index():
-    """ Root URL response """
-    return (
-        jsonify(
-            name="Inventory REST API Service",
-            version="1.0",
-            paths=url_for("list_inventory", _external=True),
-        ),
-        status.HTTP_200_OK,
-    )
 
 ######################################################################
 # LIST ALL INVENTORY
@@ -165,7 +151,20 @@ def get_inventory_item_by_sku(inv_sku):
         raise NotFound("Inventory Item with sku '{}' was not found.".format(inv_sku))
     return make_response(jsonify(inv.serialize()), status.HTTP_200_OK)
 
+######################################################################
+# RETRIEVE OUT OF STOCK INVENTORY ITEMS 
+# ######################################################################
+@app.route("/inventory/restock", methods=["GET"])
+def get_understocked_inventory():
+    """
+    Retrieve records that are out of stock
 
+    """
+    app.logger.info("Request for understocked inventory")
+    inv = Inventory.find_understocked()
+    if not inv:
+        raise NotFound("Understocked Inventory was not found.")
+    return make_response(jsonify(inv[0].serialize()), status.HTTP_200_OK)
 
 ######################################################################
 # ADD A NEW INVENTORY ITEM
@@ -213,6 +212,29 @@ def update_inventory(inv_id):
     inventory.save()
     return make_response(jsonify(inventory.serialize()), status.HTTP_200_OK)
 
+######################################################################
+# UPDATE AN EXISTING INVENTORY ITEM
+######################################################################
+@app.route("/inventory/<int:inv_id>", methods=["PUT"])
+def update_inventory(inv_id):
+    """
+    Update an inventory item
+
+    This endpoint will update an inventory item based on the body that is posted
+    """
+    app.logger.info("Request to update inventory with id: %s", inv_id)
+    check_content_type("application/json")
+    inventory = Inventory.find(inv_id)
+    update_item = inventory.deserialize(request.get_json())
+
+    if not inventory:
+        raise NotFound("Inventory with id '{}' was not found.".format(inv_id))
+    inventory.name = update_item.name 
+    inventory.sku = update_item.sku
+    inventory.quantity = update_item.quantity
+    inventory.restockLevel = update_item.restockLevel
+    inventory.save()
+    return make_response(jsonify(inventory.serialize()), status.HTTP_200_OK)
 
 ######################################################################
 # DELETE AN INVENTORY ITEM BY ID
