@@ -68,7 +68,16 @@ class TestInventoryServer(TestCase):
             test_inv_item.id = new_inv_item["id"]
             inventory.append(test_inv_item)
         return inventory
-#####
+
+
+    def test_index(self):
+        """ Test the Home Page """
+        resp = self.app.get("/")
+        self.assertEqual(resp.status_code, status.HTTP_200_OK)
+        data = resp.get_json()
+        self.assertEqual(data["name"], "Inventory REST API Service")
+
+
     def test_get_inventory_list(self):
         """ Get a list of Inventory Items """
         self._create_inventory(5)
@@ -76,7 +85,7 @@ class TestInventoryServer(TestCase):
         self.assertEqual(resp.status_code, status.HTTP_200_OK)
         data = resp.get_json()
         self.assertEqual(len(data), 5)
-###
+
     def test_get_inventory(self):
         """ Get a single Inventory item """
         # get the id of an inventory item
@@ -160,3 +169,17 @@ class TestInventoryServer(TestCase):
         )
         self.assertEqual(resp.status_code, status.HTTP_404_NOT_FOUND)
 
+
+    def test_query_understocked_inventory(self):
+        """ Query Understocked Inventory """
+        inventory = []
+        inventory.append(Inventory(name = "Rolex Watch", sku= "R1232020", quantity = 10, restockLevel = 12).create())
+        inventory.append(Inventory(name = "Cartier Watch", sku= "C1232020", quantity = 12, restockLevel = 6).create())
+        inventory.append(Inventory(name = "Tissot Watch", sku= "T1232020", quantity = 12).create())
+
+        resp = self.app.get("/inventory/restock")
+        self.assertEqual(resp.status_code, status.HTTP_200_OK)
+        data = resp.get_json()
+        inv_item = Inventory()
+        inv_item.deserialize(data)
+        self.assertEqual(inv_item.name, "Rolex Watch")
