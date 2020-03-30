@@ -23,6 +23,7 @@ from . import app
 # Error Handlers
 ######################################################################
 @app.errorhandler(DataValidationError)
+
 # def request_validation_error(error):
 #     """ Handles Value Errors from bad data """
 #     return bad_request(error)
@@ -95,8 +96,6 @@ from . import app
 #         ),
 #         status.HTTP_500_INTERNAL_SERVER_ERROR,
 #     )
-
-
 
 ######################################################################
 # GET INDEX
