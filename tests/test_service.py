@@ -96,6 +96,15 @@ class TestInventoryServer(TestCase):
         self.assertEqual(resp.status_code, status.HTTP_200_OK)
         data = resp.get_json()
         self.assertEqual(data["name"], test_inv_item.name)
+        # get the sku of the inventory item
+        resp = self.app.get(
+            "/inventory/{}".format(test_inv_item.sku), content_type="application/json"
+        )
+        self.assertEqual(resp.status_code, status.HTTP_200_OK)
+        data = resp.get_json()
+        self.assertEqual(data["name"], test_inv_item.name)
+        
+
 
     def test_get_inventory_not_found(self):
         """ Get an Inventory Item thats not found """
@@ -117,7 +126,7 @@ class TestInventoryServer(TestCase):
         new_item = resp.get_json()
         self.assertEqual(new_item["name"], test_inv_item.name, "Names do not match")
         self.assertEqual(
-            new_item["quantity"], test_inv_item.quantity, "Availability does not match"
+            new_item["quantity"], test_inv_item.quantity, "Quantity does not match"
         )
         self.assertEqual(
             new_item["restockLevel"], test_inv_item.restockLevel, "Categories do not match"
@@ -128,7 +137,7 @@ class TestInventoryServer(TestCase):
         new_item = resp.get_json()
         self.assertEqual(new_item["name"], test_inv_item.name, "Names do not match")
         self.assertEqual(
-            new_item["quantity"], test_inv_item.quantity, "Availability does not match"
+            new_item["quantity"], test_inv_item.quantity, "Quantity does not match"
         )
         self.assertEqual(
             new_item["restockLevel"], test_inv_item.restockLevel, "Categories do not match"
@@ -148,6 +157,27 @@ class TestInventoryServer(TestCase):
         new_item['restockLevel'] = 20
         resp = self.app.put(
             "/inventory/{}".format(new_item['id']),
+            json = new_item,
+            content_type = "application/json"
+        )
+        self.assertEqual(resp.status_code, status.HTTP_200_OK)
+        updated_inventory = resp.get_json()
+        self.assertEqual(updated_inventory["restockLevel"], 20)
+
+    def test_update_inventory_by_sku(self):
+        """ Update an existing inventory item"""
+        #Create item to update
+        test_inventory = InventoryFactory()
+        resp = self.app.post(
+            "/inventory", json=test_inventory.serialize(), content_type = "application/json"
+        )
+        self.assertEqual(resp.status_code, status.HTTP_201_CREATED)
+
+        # update the inventory by sku
+        new_item = resp.get_json()
+        new_item['restockLevel'] = 20
+        resp = self.app.put(
+            "/inventory/{}".format(new_item['sku']),
             json = new_item,
             content_type = "application/json"
         )
