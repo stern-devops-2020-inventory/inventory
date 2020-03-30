@@ -128,3 +128,10 @@ class Inventory(db.Model):
         """
         logger.info("Processing name query for %s ...", name)
         return cls.query.filter(cls.name == name)
+
+    @classmethod
+    def find_understocked(cls):
+    #Return items that are understocked
+        return cls.query.filter(cls.quantity < cls.restockLevel)
+
+        
