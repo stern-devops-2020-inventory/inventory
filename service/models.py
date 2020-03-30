@@ -111,7 +111,7 @@ class Inventory(db.Model):
     def find_by_sku(cls, sku):
         """ Finds Inventory by it's sku """
         logger.info("Processing lookup for sku %s ...", sku)
-        return cls.query.filter(cls.sku == sku)
+        return cls.query.filter(cls.sku == sku).first()
 
     @classmethod
     def find_or_404(cls, inv_id):
@@ -128,3 +128,8 @@ class Inventory(db.Model):
         """
         logger.info("Processing name query for %s ...", name)
         return cls.query.filter(cls.name == name)
+
+    @classmethod
+    def find_understocked(cls):
+    #Return items that are understocked
+        return cls.query.filter(cls.quantity < cls.restockLevel)
