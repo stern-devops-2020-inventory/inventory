@@ -230,22 +230,22 @@ def update_inventory(inv_id):
     return make_response(jsonify(inventory.serialize()), status.HTTP_200_OK)
 
 ######################################################################
-# UPDATE AN EXISTING INVENTORY ITEM
+# UPDATE AN EXISTING INVENTORY ITEM BY SKU
 ######################################################################
-@app.route("/inventory/<int:inv_id>", methods=["PUT"])
-def update_inventory(inv_id):
+@app.route("/inventory/<string:inv_sku>", methods=["PUT"])
+def update_inventory_by_sku(inv_sku):
     """
     Update an inventory item
 
     This endpoint will update an inventory item based on the body that is posted
     """
-    app.logger.info("Request to update inventory with id: %s", inv_id)
+    app.logger.info("Request to update inventory with sku: %s", inv_sku)
     check_content_type("application/json")
-    inventory = Inventory.find(inv_id)
+    inventory = Inventory.find_by_sku(inv_sku)
     update_item = inventory.deserialize(request.get_json())
 
     if not inventory:
-        raise NotFound("Inventory with id '{}' was not found.".format(inv_id))
+        raise NotFound("Inventory with sku '{}' was not found.".format(inv_sku))
     inventory.name = update_item.name 
     inventory.sku = update_item.sku
     inventory.quantity = update_item.quantity
