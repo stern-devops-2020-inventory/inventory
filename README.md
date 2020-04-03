@@ -2,7 +2,7 @@
 
 # nyu-travis-ci badge
 [![Build Status](https://travis-ci.org/stern-devops-2020-inventory/inventory.svg?branch=master)](https://travis-ci.org/stern-devops-2020-inventory/inventory)
-[![Codecov](https://img.shields.io/codecov/c/github/nyu-devops/lab-travis-ci.svg)]()
+[![codecov](https://codecov.io/gh/stern-devops-2020-inventory/inventory/branch/master/graph/badge.svg)](https://codecov.io/gh/stern-devops-2020-inventory/inventory)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
 # overview
