@@ -1,7 +1,7 @@
 ---
 # This manifest deploys a Python Flask application with a Cloudant database
 applications:
-- name: lab-bluemix-cf
+- name: DevOps Inventory
   path: .
   instances: 2
   memory: 64M
