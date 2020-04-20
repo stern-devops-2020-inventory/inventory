@@ -3,9 +3,15 @@ Global Configuration for Application
 """
 import os
 import json
+import platform
 
 # Get configuration from environment
-DATABASE_URI = os.getenv("DATABASE_URI", "sqlite:///../development.db")
+DATABASE_URI = os.getenv("DATABASE_URI", 
+    "postgres://postgres:postgres@localhost:5432/postgres")
+
+if platform.system() != 'Linux':
+    fil = open("env\db.txt", "r") 
+    DATABASE_URI = fil.read()
 
 #override for cloud foundry
 if 'VCAP_SERVICES' in os.environ:
