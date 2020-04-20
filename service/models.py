@@ -89,8 +89,10 @@ class Inventory(db.Model):
     @classmethod
     def init_db(cls, app):
         """ Initializes the database session """
+        print("Trying to log Initializing database")
         logger.info("Initializing database")
         cls.app = app
+
         # This is where we initialize SQLAlchemy from the Flask app
         db.init_app(app)
         app.app_context().push()

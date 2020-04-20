@@ -1,18 +1,18 @@
 ---
 # This manifest deploys a Python Flask application with a Cloudant database
 applications:
-- name: DevOps Inventory
+- name: DevOps-Inventory
   path: .
   instances: 2
-  memory: 64M
+  memory: 128M
   routes:
-  #- route: lab-bluemix-cf.us-south.cf.appdomain.cloud
+  - route: nyu-inventory-service-s20.us-south.cf.appdomain.cloud
   disk_quota: 1024M
   buildpacks: 
   - python_buildpack
   timeout: 180
   services:
-  - Cloudant
+  - ElephantSQL
   env:
-    FLASK_APP : service:app
-    FLASK_DEBUG : false
+    FLASK_APP : "service:app"
+    FLASK_DEBUG : False
