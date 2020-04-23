@@ -5,13 +5,14 @@ import os
 import json
 import platform
 
+
 # Get configuration from environment
 DATABASE_URI = os.getenv("DATABASE_URI", 
     "postgres://postgres:postgres@localhost:5432/postgres")
 
 if platform.system() != 'Linux':
-    fil = open("env\db.txt", "r") 
-    DATABASE_URI = fil.read()
+    # fil = open("env\db.txt", "r") 
+    DATABASE_URI = 'postgres://wcyxeuhc:8ZB7lML7gULf0KWyZXqNaeNi8_Wyyyhu@echo.db.elephantsql.com:5432/wcyxeuhc'
 
 #override for cloud foundry
 if 'VCAP_SERVICES' in os.environ:
