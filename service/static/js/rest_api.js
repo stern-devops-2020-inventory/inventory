@@ -6,21 +6,11 @@ $(function () {
 
     // Updates the form with data from the response
     function update_form_data(res) {
-        $("#inv_id").val(res._id);
+        $("#inv_id").val(res.id);
         $("#name").val(res.name);
         $("#inv_sku").val(res.sku);
-        if (res.available == true) {
-            $("#inv_available").val("true");
-        } else {
-            $("#inv_available").val("false");
-        }
-    }
-
-    /// Clears all form fields
-    function clear_form_data() {
-        $("#name").val("");
-        $("#inv_sku").val("");
-        $("#inv_available").val("");
+        $("#inv_quantity").val(res.quantity);
+        $("#inv_restock").val(res.restockLevel);
     }
 
     // Updates the flash message area
@@ -29,6 +19,24 @@ $(function () {
         $("#flash_message").append(message);
     }
 
+    /// Clears all form fields
+    function clear_form_data() {
+    $("#name").val("");
+    $("#inv_sku").val("");
+    $("#inv_quantity").val("");
+    $("#inv_restock").val("")
+}
+
+    // ****************************************
+    // Clear the form
+    // ****************************************
+
+    $("#clear-btn").click(function () {
+        $("#inv_id").val("");
+        clear_form_data()
+    });
+    
+    
     // ****************************************
     // Create an Item
     // ****************************************
@@ -36,13 +44,17 @@ $(function () {
     $("#create-btn").click(function () {
 
         var name = $("#name").val();
-        var category = $("#inv_id").val();
-        var available = $("#inv_available").val() == "true";
+        var inv_id = $("#inv_id").val();
+        var sku = $("#inv_sku").val();
+        var quantity = $("#inv_quantity").val();
+        var restockLevel = $("#inv_restock").val();
 
         var data = {
+            "id": inv_id,
             "name": name,
-            "inv_id": inv_id,
-            "available": available
+            "quantity": quantity,
+            "restockLevel": restockLevel,
+            "sku": sku,
         };
 
         var ajax = $.ajax({
@@ -152,15 +164,6 @@ $(function () {
     });
 
     // ****************************************
-    // Clear the form
-    // ****************************************
-
-    $("#clear-btn").click(function () {
-        $("#inv_id").val("");
-        clear_form_data()
-    });
-
-    // ****************************************
     // Search for an Item
     // ****************************************
 
@@ -168,7 +171,8 @@ $(function () {
 
         var name = $("#name").val();
         var sku = $("#inv_sku").val();
-        var available = $("#inv_available").val() == "true";
+        var quantity = $("#inv_quantity").val();
+        var restockLevel = $("#inv_restock").val();
 
         var queryString = ""
 
@@ -182,11 +186,18 @@ $(function () {
                 queryString += 'sku=' + sku
             }
         }
-        if (available) {
+        if (restockLevel) {
             if (queryString.length > 0) {
-                queryString += '&available=' + available
+                queryString += '&restockLevel=' + restockLevel
             } else {
-                queryString += 'available=' + available
+                queryString += 'restockLevel=' + restockLevel
+            }
+        }
+        if (quantity) {
+            if (queryString.length > 0) {
+                queryString += '&quantity=' + quantity
+            } else {
+                queryString += 'quantity=' + quantity
             }
         }
 
@@ -203,17 +214,18 @@ $(function () {
             $("#search_results").append('<table class="table-striped" cellpadding="10">');
             var header = '<tr>'
             header += '<th style="width:10%">ID</th>'
-            header += '<th style="width:40%">Name</th>'
-            header += '<th style="width:40%">SKU</th>'
-            header += '<th style="width:10%">Available</th></tr>'
+            header += '<th style="width:20%">SKU</th>'
+            header += '<th style="width:20%">Name</th>'
+            header += '<th style="width:20%">Quantity</th>'
+            header += '<th style="width:30%">Restock Level</th></tr>'
             $("#search_results").append(header);
             var firstItem = "";
             for(var i = 0; i < res.length; i++) {
                 var inv = res[i];
-                var row = "<tr><td>"+inv._id+"</td><td>"+name+"</td><td>"+inv.sku+"</td><td>"+inv.available+"</td></tr>";
+                var row = "<tr><td>"+inv.id+"</td><td>"+inv.sku+"</td><td>"+inv.name+"</td><td>"+inv.quantity+"</td><td>"+inv.restockLevel+"</td></tr>";
                 $("#search_results").append(row);
                 if (i == 0) {
-                    firstItem = pet;
+                    firstItem = inv;
                 }
             }
 
@@ -221,7 +233,7 @@ $(function () {
 
             // copy the first result to the form
             if (firstItem != "") {
-                update_form_data(firstPet)
+                update_form_data(firstItem)
             }
 
             flash_message("Success")

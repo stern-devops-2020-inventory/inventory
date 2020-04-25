@@ -123,12 +123,12 @@ def list_inventory():
     inventory = []
     sku = request.args.get("sku")
     name = request.args.get("name")
-#    if sku:
-#        inventory = Inventory.find_by_sku(sku)
-#    elif name:
-#        inventory = Inventory.find_by_name(name)
-#    else:
-    inventory = Inventory.all()
+    if sku:
+        inventory = Inventory.find_by_sku(sku)
+    elif name:
+        inventory = Inventory.find_by_name(name)
+    else:
+        inventory = Inventory.all()
 
     results = [inv.serialize() for inv in inventory]
     return make_response(jsonify(results), status.HTTP_200_OK)

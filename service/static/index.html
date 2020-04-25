@@ -29,7 +29,7 @@
               <div class="form-group">
                 <label class="control-label col-sm-2" for="inv_id">Inventory ID:</label>
                 <div class="col-sm-6">
-                  <input type="text" class="form-control" id="inv_id" placeholder="Enter inventory ID">
+                  <input type="text" class="form-control" id="inv_id" placeholder="Enter Inventory ID">
                 </div>
                 <div class="col-sm-4">
                   <button type="submit" class="btn btn-primary" id="retrieve-btn">Retrieve</button>
@@ -42,25 +42,25 @@
               <div class="form-group">
                 <label class="control-label col-sm-2" for="name">Name:</label>
                 <div class="col-sm-10">
-                  <input type="text" class="form-control" id="name" placeholder="Enter name of inventory Item">
+                  <input type="text" class="form-control" id="name" placeholder="Enter Name of Inventory Item">
                 </div>
               </div>
               <div class="form-group">
                 <label class="control-label col-sm-2" for="inv_sku">SKU:</label>
                 <div class="col-sm-10">
-                  <input type="text" class="form-control" id="inv_sku" placeholder="Enter inventory SKU">
+                  <input type="text" class="form-control" id="inv_sku" placeholder="Enter Item SKU">
                 </div>
               </div>
               <div class="form-group">
-                <label class="control-label col-sm-2" for="inv_available">Quantity:</label>
+                <label class="control-label col-sm-2" for="inv_quantity">Quantity:</label>
                 <div class="col-sm-10">
-                  <input type="text" class="form-control" id="inv_sku" placeholder="Enter inventory SKU">
+                  <input type="text" class="form-control" id="inv_quantity" placeholder="Enter Item Quantity">
                 </div>
               </div>
               <div class="form-group">
-                <label class="control-label col-sm-2" for="inv_available">Restock Level:</label>
+                <label class="control-label col-sm-2" for="inv_restock">Restock Level:</label>
                 <div class="col-sm-10">
-                  <input type="text" class="form-control" id="inv_sku" placeholder="Enter inventory SKU">
+                  <input type="text" class="form-control" id="inv_restock" placeholder="Enter the Level when New Inventory Should be Ordered">
                 </div>
               </div>
               <div class="form-group">
@@ -75,14 +75,15 @@
         </div>
 
         <!-- Search Results -->
-        <div class="table-responsive col-md-12" id="search_results">
+        <div class="table-responsive col-md-11" id="search_results">
           <table class="table-striped">
             <thead>
             <tr>
                 <th class="col-md-1">ID</th>
-                <th class="col-md-4">Name</th>
-                <th class="col-md-4">Category</th>
-                <th class="col-md-3">Available</th>
+                <th class="col-md-2">SKU</th>
+                <th class="col-md-2">Name</th>
+                <th class="col-md-2">Quantity</th>
+                <th class="col-md-4">Restock Level</th>
             </tr>
             </thead>
           </table>
@@ -90,7 +91,7 @@
 
         <footer>
           <br><br>
-          <p>&copy; NYU DevOps Inventory Team Spr 2020</p>
+          <p>&copy; NYU DevOps Inventory Team Spring 2020</p>
         </footer>
         </div><!--/span-->
      </div><!--/row-->
