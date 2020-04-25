@@ -162,7 +162,7 @@ def get_inventory_item_by_sku(inv_sku):
     This endpoint will return an Inventory row based on its sku
     """
     app.logger.info("Request for Item with sku: %", inv_sku)
-    inv = Inventory.find_by_sku(inv_sku)
+    inv = Inventory.find_by_sku(inv_sku)[0]
     if not inv:
         raise NotFound("Inventory Item with sku '{}' was not found.".format(inv_sku))
     return make_response(jsonify(inv.serialize()), status.HTTP_200_OK)
@@ -240,7 +240,7 @@ def update_inventory_by_sku(inv_sku):
     """
     app.logger.info("Request to update inventory with sku: %s", inv_sku)
     check_content_type("application/json")
-    inventory = Inventory.find_by_sku(inv_sku)
+    inventory = Inventory.find_by_sku(inv_sku)[0]
     update_item = inventory.deserialize(request.get_json())
 
     if not inventory:

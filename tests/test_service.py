@@ -143,7 +143,7 @@ class TestInventoryServer(TestCase):
         )
 
     def test_update_inventory(self):
-        """ Update an existing inventory item"""
+        """ Update an existing inventory item by id"""
         #Create item to update
         test_inventory = InventoryFactory()
         resp = self.app.post(
@@ -164,7 +164,7 @@ class TestInventoryServer(TestCase):
         self.assertEqual(updated_inventory["restockLevel"], 20)
 
     def test_update_inventory_by_sku(self):
-        """ Update an existing inventory item"""
+        """ Update an existing inventory item by sku"""
         #Create item to update
         test_inventory = InventoryFactory()
         resp = self.app.post(

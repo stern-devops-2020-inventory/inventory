@@ -153,9 +153,9 @@ class TestInventoryModel (unittest.TestCase):
         Inventory(name = "Rolex Watch", sku= "R1232020", quantity = 10, restockLevel = 12).create()
         Inventory(name = "Cartier Watch", sku= "C1232020", quantity = 12, restockLevel = 6).create()
         inv_items = Inventory.find_by_sku("R1232020")
-        self.assertEqual(inv_items.name, "Rolex Watch" )
-        self.assertEqual(inv_items.quantity, 10)
-        self.assertEqual(inv_items.restockLevel, 12)
+        self.assertEqual(inv_items[0].name, "Rolex Watch" )
+        self.assertEqual(inv_items[0].quantity, 10)
+        self.assertEqual(inv_items[0].restockLevel, 12)
 
     def test_find_by_name(self):
         """ Find Inventory items by name """
