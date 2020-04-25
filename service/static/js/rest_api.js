@@ -84,15 +84,15 @@ $(function () {
         var inv_id = $("#inv_id").val();
         var name = $("#name").val();
         var sku = $("#inv_sku").val();
-        var quantity = $("#inv_quantity");
-        var restockLevel = $("#inv_restock");
+        var quantity = $("#inv_quantity").val();
+        var restockLevel = $("#inv_restock").val();
 
         var data = {
             "id": inv_id,
             "name": name,
             "quantity": quantity,
             "sku": sku,
-            "resockLevel": restockLevel   
+            "restockLevel": restockLevel,
         };
 
         var ajax = $.ajax({
