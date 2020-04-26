@@ -123,12 +123,12 @@ def list_inventory():
     inventory = []
     sku = request.args.get("sku")
     name = request.args.get("name")
-#    if sku:
-#        inventory = Inventory.find_by_sku(sku)
-#    elif name:
-#        inventory = Inventory.find_by_name(name)
-#    else:
-    inventory = Inventory.all()
+    if sku:
+        inventory = Inventory.find_by_sku(sku)
+    elif name:
+        inventory = Inventory.find_by_name(name)
+    else:
+        inventory = Inventory.all()
 
     results = [inv.serialize() for inv in inventory]
     return make_response(jsonify(results), status.HTTP_200_OK)
@@ -165,7 +165,8 @@ def get_inventory_item_by_sku(inv_sku):
     inv = Inventory.find_by_sku(inv_sku)
     if not inv:
         raise NotFound("Inventory Item with sku '{}' was not found.".format(inv_sku))
-    return make_response(jsonify(inv.serialize()), status.HTTP_200_OK)
+    results = [inv_item.serialize() for inv_item in inv]
+    return make_response(jsonify(results), status.HTTP_200_OK)
 
 ######################################################################
 # RETRIEVE OUT OF STOCK INVENTORY ITEMS 
@@ -240,7 +241,7 @@ def update_inventory_by_sku(inv_sku):
     """
     app.logger.info("Request to update inventory with sku: %s", inv_sku)
     check_content_type("application/json")
-    inventory = Inventory.find_by_sku(inv_sku)
+    inventory = Inventory.find_by_sku(inv_sku).first() #Could return multiple items, we will take first    
     update_item = inventory.deserialize(request.get_json())
 
     if not inventory:

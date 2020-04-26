@@ -5,6 +5,7 @@ import os
 import json
 import platform
 
+
 # Get configuration from environment
 DATABASE_URI = os.getenv("DATABASE_URI", 
     "postgres://postgres:postgres@localhost:5432/postgres")
