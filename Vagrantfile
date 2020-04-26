@@ -65,13 +65,39 @@ Vagrant.configure(2) do |config|
     apt-get update
     apt-get install -y git zip tree python3 python3-pip python3-venv
     apt-get -y autoremove
+
+
+    # Add Chrome and Selenium install 
+    echo "\n*****************************************"
+    echo " Installing Chrome Headless and Selenium"
+    echo "*****************************************\n"
+    apt-get install -y chromium-chromedriver python3-selenium
+    chromedriver --version
+
+  # Install app dependencies
+    cd /vagrant
+    pip3 install -r requirements.txt
+  SHELL
+
     # Create a Python3 Virtual Environment and Activate it in .profile
     sudo -H -u vagrant sh -c 'python3 -m venv ~/venv'
     sudo -H -u vagrant sh -c 'echo ". ~/venv/bin/activate" >> ~/.profile'
     # Install app dependencies as vagrant user
     sudo -H -u vagrant sh -c '. ~/venv/bin/activate && cd /vagrant && pip install -r requirements.txt'
+  SHELL
+
+######################################################################
+  # Add PostgreSQL docker container
+  ######################################################################
+  # docker run -d --name postgres -p 5432:5432 -v psql_data:/var/lib/postgresql/data postgres
+  config.vm.provision :docker do |d|
+    d.pull_images "postgres:alpine"
+    d.run "postgres:alpine",
+       args: "-d --name postgres -p 5432:5432 -v psql_data:/var/lib/postgresql/data -e POSTGRES_PASSWORD=postgres"
+
 
     # Install IBM Cloud CLI...
+    config.vm.provision "shell", inline: <<-SHELL
     echo "\n************************************"
     echo " Installing IBM Cloud CLI..."
     echo "************************************\n"
@@ -96,24 +122,7 @@ Vagrant.configure(2) do |config|
     echo "CouchDB Admin GUI can be found at:\n"
     echo "http://127.0.0.1:5984/_utils"    
   SHELL
-
-  ######################################################################
-  # Add PostgreSQL docker container
-  ######################################################################
-  # docker run -d --name postgres -p 5432:5432 -v psql_data:/var/lib/postgresql/data postgres
-  config.vm.provision :docker do |d|
-    d.pull_images "postgres:alpine"
-    d.run "postgres:alpine",
-       args: "-d --name postgres -p 5432:5432 -v psql_data:/var/lib/postgresql/data -e POSTGRES_PASSWORD=postgres"
-
-
-*************************************
-#Add Chrome and Selenium install 
- echo "\n*****************************************"
-    echo " Installing Chrome Headless and Selenium"
-    echo "*****************************************\n"
-    apt-get install -y chromium-chromedriver python3-selenium
-    chromedriver --version
+end
 
 end
 
