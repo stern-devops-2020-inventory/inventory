@@ -65,6 +65,13 @@ Vagrant.configure(2) do |config|
     apt-get update
     apt-get install -y git zip tree python3 python3-pip python3-venv
     apt-get -y autoremove
+
+ echo "\n*****************************************"
+ echo " Installing Chrome Headless and Selenium"
+ echo "*****************************************\n"
+ apt-get install -y chromium-chromedriver python3-selenium
+ chromedriver --version
+
     # Create a Python3 Virtual Environment and Activate it in .profile
     sudo -H -u vagrant sh -c 'python3 -m venv ~/venv'
     sudo -H -u vagrant sh -c 'echo ". ~/venv/bin/activate" >> ~/.profile'
@@ -106,15 +113,7 @@ Vagrant.configure(2) do |config|
     d.run "postgres:alpine",
        args: "-d --name postgres -p 5432:5432 -v psql_data:/var/lib/postgresql/data -e POSTGRES_PASSWORD=postgres"
 
-
-*************************************
-#Add Chrome and Selenium install 
- echo "\n*****************************************"
-    echo " Installing Chrome Headless and Selenium"
-    echo "*****************************************\n"
-    apt-get install -y chromium-chromedriver python3-selenium
-    chromedriver --version
-
 end
 
+end
 
