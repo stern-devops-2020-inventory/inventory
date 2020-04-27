@@ -77,7 +77,7 @@ Vagrant.configure(2) do |config|
   # Install app dependencies
     cd /vagrant
     pip3 install -r requirements.txt
-  SHELL
+  
 
     # Create a Python3 Virtual Environment and Activate it in .profile
     sudo -H -u vagrant sh -c 'python3 -m venv ~/venv'
