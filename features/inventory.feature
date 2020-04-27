@@ -1,7 +1,7 @@
 Feature: The store service back-end
     As a Store Owner
     I need a RESTful catalog service
-    So that I can keep track of all my items
+    So that I can keep track of all my inventory items
 
 Background:
     Given the following items
