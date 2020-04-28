@@ -56,6 +56,12 @@ class Inventory(db.Model):
         db.session.delete(self)
         db.session.commit()
 
+    @classmethod
+    def remove_all(cls):
+        """ Removes all documents from the database (use for testing)  """
+        for document in cls.query.all():
+            document.delete()
+
     def serialize(self):
         """ Serializes Inventory into a dictionary """
         return {
