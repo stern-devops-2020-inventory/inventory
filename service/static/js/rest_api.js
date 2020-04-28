@@ -7,7 +7,7 @@ $(function () {
     // Updates the form with data from the response
     function update_form_data(res) {
         $("#inv_id").val(res.id);
-        $("#name").val(res.name);
+        $("#inv_name").val(res.name);
         $("#inv_sku").val(res.sku);
         $("#inv_quantity").val(res.quantity);
         $("#inv_restock").val(res.restockLevel);
@@ -21,7 +21,7 @@ $(function () {
 
     /// Clears all form fields
     function clear_form_data() {
-    $("#name").val("");
+    $("#inv_name").val("");
     $("#inv_sku").val("");
     $("#inv_quantity").val("");
     $("#inv_restock").val("")
@@ -43,7 +43,7 @@ $(function () {
 
     $("#create-btn").click(function () {
 
-        var name = $("#name").val();
+        var name = $("#inv_name").val();
         var inv_id = $("#inv_id").val();
         var sku = $("#inv_sku").val();
         var quantity = $("#inv_quantity").val();
@@ -82,7 +82,7 @@ $(function () {
     $("#update-btn").click(function () {
 
         var inv_id = $("#inv_id").val();
-        var name = $("#name").val();
+        var name = $("#inv_name").val();
         var sku = $("#inv_sku").val();
         var quantity = $("#inv_quantity").val();
         var restockLevel = $("#inv_restock").val();
@@ -140,6 +140,32 @@ $(function () {
         });
 
     });
+    
+    // ****************************************
+    // Retrieve understocked
+    // ****************************************
+
+    $("#restock-btn").click(function () {
+
+        var ajax = $.ajax({
+            type: "GET",
+            url: "/inventory/restock",
+            contentType: "application/json",
+            data: ''
+        })
+
+        ajax.done(function(res){
+            //alert(res.toSource())
+            update_form_data(res)
+            flash_message("Success")
+        });
+
+        ajax.fail(function(res){
+            clear_form_data()
+            flash_message("Understocked Inventory was not found")
+        });
+
+    });
 
     // ****************************************
     // Delete an Item
@@ -172,7 +198,7 @@ $(function () {
 
     $("#search-btn").click(function () {
 
-        var name = $("#name").val();
+        var name = $("#inv_name").val();
         var sku = $("#inv_sku").val();
         var quantity = $("#inv_quantity").val();
         var restockLevel = $("#inv_restock").val();

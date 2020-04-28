@@ -86,7 +86,7 @@ Vagrant.configure(2) do |config|
     sudo -H -u vagrant sh -c '. ~/venv/bin/activate && cd /vagrant && pip install -r requirements.txt'
   SHELL
 
-######################################################################
+  ######################################################################
   # Add PostgreSQL docker container
   ######################################################################
   # docker run -d --name postgres -p 5432:5432 -v psql_data:/var/lib/postgresql/data postgres

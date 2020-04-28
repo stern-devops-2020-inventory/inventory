@@ -288,7 +288,14 @@ def delete_inventory_item_by_sku(inv_sku):
         inv.delete()
     return make_response("", status.HTTP_204_NO_CONTENT)
 
-
+######################################################################
+# DELETE ALL INVENTORY DATA (for testing only)
+######################################################################
+@app.route('/inventory/reset', methods=['DELETE'])
+def inventory_reset():
+    """ Removes all inventory from the database """
+    Inventory.remove_all()
+    return make_response('', status.HTTP_204_NO_CONTENT)
 
 ######################################################################
 #  U T I L I T Y   F U N C T I O N S

@@ -17,7 +17,7 @@ from selenium.webdriver.support import expected_conditions
 
 WAIT_SECONDS = int(getenv('WAIT_SECONDS', '60'))
 
-@given('the following inventory items')
+@given('the following items')
 def step_impl(context):
     """ Delete all inventory items and load new ones """
     headers = {'Content-Type': 'application/json'}
@@ -26,17 +26,16 @@ def step_impl(context):
     create_url = context.base_url + '/inventory'
     for row in context.table:
         data = {
-            "name": row['name'],
-            "inventory id": row['inv_id'],
-            "inventory sku": row['inv_sku'],
+            "name": row['inv_name'],
+            "sku": row['inv_sku'],
             "quantity": row['inv_quantity'],
-            "restock level": row['inv_restock']
+            "restockLevel": row['inv_restock']
             }
         payload = json.dumps(data)
         context.resp = requests.post(create_url, data=payload, headers=headers)
         expect(context.resp.status_code).to_equal(201)
 
-@when('I visit the "home page"')
+@when('I visit the "Home Page"')
 def step_impl(context):
     """ Make a call to the base URL """
     context.driver.get(context.base_url)
@@ -55,7 +54,7 @@ def step_impl(context, message):
 
 @when('I set the "{element_name}" to "{text_string}"')
 def step_impl(context, element_name, text_string):
-    element_id = 'pet_' + element_name.lower()
+    element_id = 'inv_' + element_name.lower()
     element = context.driver.find_element_by_id(element_id)
     element.clear()
     element.send_keys(text_string)
@@ -74,7 +73,7 @@ def step_impl(context, text, element_name):
 
 @then('the "{element_name}" field should be empty')
 def step_impl(context, element_name):
-    element_id = 'pet_' + element_name.lower()
+    element_id = 'inv_' + element_name.lower()
     element = context.driver.find_element_by_id(element_id)
     expect(element.get_attribute('value')).to_be(u'')
 
@@ -83,7 +82,7 @@ def step_impl(context, element_name):
 ##################################################################
 @when('I copy the "{element_name}" field')
 def step_impl(context, element_name):
-    element_id = element_name.lower()
+    element_id = 'inv_' + element_name.lower()
     # element = context.driver.find_element_by_id(element_id)
     element = WebDriverWait(context.driver, WAIT_SECONDS).until(
         expected_conditions.presence_of_element_located((By.ID, element_id))
@@ -93,7 +92,7 @@ def step_impl(context, element_name):
 
 @when('I paste the "{element_name}" field')
 def step_impl(context, element_name):
-    element_id = element_name.lower()
+    element_id = 'inv_' + element_name.lower()
     # element = context.driver.find_element_by_id(element_id)
     element = WebDriverWait(context.driver, WAIT_SECONDS).until(
         expected_conditions.presence_of_element_located((By.ID, element_id))
@@ -146,7 +145,7 @@ def step_impl(context, message):
 
 @then('I should see "{text_string}" in the "{element_name}" field')
 def step_impl(context, text_string, element_name):
-    element_id = + element_name.lower()
+    element_id = 'inv_' + element_name.lower()
     # element = context.driver.find_element_by_id(element_id)
     # expect(element.get_attribute('value')).to_equal(text_string)
     found = WebDriverWait(context.driver, WAIT_SECONDS).until(
@@ -159,7 +158,7 @@ def step_impl(context, text_string, element_name):
 
 @when('I change "{element_name}" to "{text_string}"')
 def step_impl(context, element_name, text_string):
-    element_id = element_name.lower()
+    element_id = 'inv_' + element_name.lower()
     # element = context.driver.find_element_by_id(element_id)
     element = WebDriverWait(context.driver, WAIT_SECONDS).until(
         expected_conditions.presence_of_element_located((By.ID, element_id))
