@@ -6,6 +6,7 @@ applications:
   instances: 2
   memory: 128M
   #uncomment to be able to do manual cf push from ibmcloud cli.
+  #Prod: nyu-inventory-service-s20-prod.us-south.cf.appdomain.cloud
   #routes:
   #- route: nyu-inventory-service-s20.us-south.cf.appdomain.cloud
   disk_quota: 1024M
